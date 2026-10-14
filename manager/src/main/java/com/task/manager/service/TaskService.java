@@ -49,7 +49,7 @@ public class TaskService {
         if(!taskRepository.existsById(id)){
             throw new TaskNotFoundException(id);
         }
-         taskRepository.deleteById(id);
+          taskRepository.deleteById(id);
     }
 
 }
