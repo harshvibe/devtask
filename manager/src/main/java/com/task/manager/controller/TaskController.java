@@ -15,7 +15,7 @@ public class TaskController {
     @PostMapping("/create")
     public ResponseEntity createTask(@RequestBody Task task){
        taskService.create(task);
-       return ResponseEntity.ok("done");
+       return ResponseEntity.ok("task created");
     }
     @GetMapping("/get")
     public ResponseEntity<List<Task>>  getAll(){
@@ -25,16 +25,16 @@ public class TaskController {
     @GetMapping("/{id}")
     public ResponseEntity get(@PathVariable Long id){
        taskService.getTaskById(id);
-       return ResponseEntity.ok("got it");
+       return ResponseEntity.ok("this is your task");
     }
     @PutMapping("/{id}")
     public  ResponseEntity update(@PathVariable Long id,@RequestBody Task upsatedtask){
        taskService.updateById(id,upsatedtask);
-       return ResponseEntity.ok("updated");
+       return ResponseEntity.ok("Task updated");
     }
     @DeleteMapping("/{id}")
     public ResponseEntity delete(@PathVariable Long id){
        taskService.deleteById(id);
-       return ResponseEntity.ok("deleted");
+       return ResponseEntity.ok("Task deleted");
     }
 }
