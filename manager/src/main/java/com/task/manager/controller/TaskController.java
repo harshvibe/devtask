@@ -10,7 +10,8 @@ import java.util.Optional;
 @RestController
 @RequestMapping("/api/task")
 public class TaskController {
-    private TaskService taskService;
+    private final TaskService taskService;
+
    public TaskController(TaskService taskService){
        this.taskService = taskService;
     }
