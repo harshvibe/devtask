@@ -6,18 +6,18 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api")
+@RequestMapping("/api/task")
 public class TaskController {
     private TaskService taskService;
    public TaskController(TaskService taskService){
        this.taskService = taskService;
     }
-    @PostMapping("/create")
+    @PostMapping
     public ResponseEntity createTask(@RequestBody Task task){
        taskService.create(task);
        return ResponseEntity.ok("task created");
     }
-    @GetMapping("/get")
+    @GetMapping
     public ResponseEntity<List<Task>>  getAll(){
        List<Task> task=taskService.getAllTask();
        return ResponseEntity.ok(task);
