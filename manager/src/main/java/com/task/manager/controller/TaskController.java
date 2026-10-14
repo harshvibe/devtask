@@ -1,12 +1,8 @@
 package com.task.manager.controller;
-
 import com.task.manager.entity.Task;
 import com.task.manager.service.TaskService;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
 import java.util.List;
 
 @RestController

@@ -1,9 +1,7 @@
 package com.task.manager.service;
-
 import com.task.manager.entity.Task;
 import com.task.manager.repository.TaskRepository;
 import org.springframework.stereotype.Service;
-
 import java.util.List;
 import java.util.Optional;
 
