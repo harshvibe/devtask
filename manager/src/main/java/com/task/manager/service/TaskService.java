@@ -1,7 +1,9 @@
 package com.task.manager.service;
 import com.task.manager.entity.Task;
+import com.task.manager.entity.User;
 import com.task.manager.handler.TaskNotFoundException;
 import com.task.manager.repository.TaskRepository;
+import com.task.manager.repository.UserRepository;
 import org.springframework.stereotype.Service;
 import java.util.List;
 import java.util.Optional;
@@ -9,12 +11,21 @@ import java.util.Optional;
 @Service
 public class TaskService {
     private final TaskRepository taskRepository;
+    private final UserRepository userRepository;
 
-    public TaskService(TaskRepository taskRepository){
+    public TaskService(TaskRepository taskRepository,UserRepository userRepository){
         this.taskRepository=taskRepository;
+        this.userRepository=userRepository;
     }
 
-    public Task create(Task task){
+    public Task create(Long userId,Task request){
+        User owner=userRepository.findById(userId).
+                orElseThrow(()->new InvalidCredentialException("user no longer exist"));
+        Task task = new Task();
+        task.setTitle(request.title().trim());
+        task.setDescription(request.description());
+        task.setCompleted(Boolean.TRUE.equals(request.completed()));
+        task.setOwner(owner);
         return taskRepository.save(task);
     }
     public List<Task> getAllTask(){
