@@ -1,10 +1,14 @@
 package com.task.manager.service;
+import com.task.manager.dto.TaskRequestDto;
+import com.task.manager.dto.TaskResponseDto;
 import com.task.manager.entity.Task;
 import com.task.manager.entity.User;
 import com.task.manager.handler.TaskNotFoundException;
 import com.task.manager.repository.TaskRepository;
 import com.task.manager.repository.UserRepository;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
 import java.util.List;
 import java.util.Optional;
 
@@ -18,7 +22,8 @@ public class TaskService {
         this.userRepository=userRepository;
     }
 
-    public Task create(Long userId,Task request){
+    @Transactional
+    public TaskResponseDto create(Long userId, TaskRequestDto request){
         User owner=userRepository.findById(userId).
                 orElseThrow(()->new InvalidCredentialException("user no longer exist"));
         Task task = new Task();
@@ -26,9 +31,10 @@ public class TaskService {
         task.setDescription(request.description());
         task.setCompleted(Boolean.TRUE.equals(request.completed()));
         task.setOwner(owner);
-        return taskRepository.save(task);
+        return TaskResponseDto.from(taskRepository.save(task));
     }
-    public List<Task> getAllTask(){
+    @Transactional(readOnly = true)
+    public List<TaskResponseDto> getAllTask(Long userId){
        return taskRepository.findAll();
     }
 
