@@ -6,6 +6,7 @@ import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.oauth2.jwt.Jwt;
 import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
@@ -19,13 +20,14 @@ public class TaskController {
        this.taskService = taskService;
     }
     @PostMapping
-    public ResponseEntity<TaskResponseDto> createTask(@Valid @RequestBody TaskRequestDto requestDto){
+    public ResponseEntity<TaskResponseDto> createTask(@AuthenticationPrincipal Jwt jwt,
+            @Valid @RequestBody TaskRequestDto requestDto){
        return ResponseEntity.status(HttpStatus.CREATED)
                .body(taskService.create(userId(jwt),requestDto));
     }
     @GetMapping
-    public List<TaskResponseDto> getAll(){
-       return taskService.getAllTask(userId(jwt))
+    public List<TaskResponseDto> getAll(@AuthenticationPrincipal Jwt jwt){
+       return taskService.getAllTask(userId(jwt));
     }
     @GetMapping("/{id}")
     public TaskResponseDto getById(@AuthenticationPrincipal Jwt jwt, @PathVariable Long id) {
@@ -40,7 +42,7 @@ public class TaskController {
     @DeleteMapping("/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void delete(@AuthenticationPrincipal Jwt jwt, @PathVariable Long id) {
-        taskService.delete(userId(jwt), id);
+        taskService.deleteById(userId(jwt), id);
     }
     private Long userId(Jwt jwt) {
         return Long.valueOf(jwt.getSubject());
