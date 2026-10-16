@@ -5,6 +5,7 @@ import com.task.manager.dto.LoginRequestDto;
 import com.task.manager.dto.RegisterRequestDto;
 import com.task.manager.dto.UserResponse;
 import com.task.manager.entity.User;
+import com.task.manager.handler.DuplicateUserException;
 import com.task.manager.handler.InvalidCredentialException;
 import com.task.manager.repository.UserRepository;
 import com.task.manager.security.JwtService;
