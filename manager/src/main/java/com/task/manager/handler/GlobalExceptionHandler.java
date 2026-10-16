@@ -1,5 +1,6 @@
 package com.task.manager.handler;
 
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ProblemDetail;
 import org.springframework.http.converter.HttpMessageNotReadableException;
@@ -18,6 +19,25 @@ public class GlobalExceptionHandler {
     public ProblemDetail handleNotFound(TaskNotFoundException ex) {
         ProblemDetail problem = ProblemDetail.forStatusAndDetail(HttpStatus.NOT_FOUND, ex.getMessage());
         problem.setTitle("Task not found");
+        return problem;
+    }
+    @ExceptionHandler(InvalidCredentialException.class)
+    public ProblemDetail handleInvalidCredentials(InvalidCredentialException ex) {
+        ProblemDetail problem = ProblemDetail.forStatusAndDetail(HttpStatus.UNAUTHORIZED, ex.getMessage());
+        problem.setTitle("Authentication failed");
+        return problem;
+    }
+    @ExceptionHandler(DuplicateUserException.class)
+    public ProblemDetail handleDuplicateUser(DuplicateUserException ex) {
+        ProblemDetail problem = ProblemDetail.forStatusAndDetail(HttpStatus.CONFLICT, ex.getMessage());
+        problem.setTitle("User already exists");
+        return problem;
+    }
+    @ExceptionHandler(DataIntegrityViolationException.class)
+    public ProblemDetail handleDataIntegrity(DataIntegrityViolationException ex) {
+        ProblemDetail problem = ProblemDetail.forStatusAndDetail(
+                HttpStatus.CONFLICT, "Request conflicts with existing data");
+        problem.setTitle("Conflict");
         return problem;
     }
 
