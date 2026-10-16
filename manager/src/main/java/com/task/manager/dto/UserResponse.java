@@ -11,4 +11,4 @@ public record UserResponse(
         return new UserResponse(user.getId(), user.getUsername(), user.getEmail());
     }
 }
-}
+
